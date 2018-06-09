@@ -1,6 +1,6 @@
 # SQL exam 学习资料  (2333
 
-[TOC]
+
 
 * ***请先还原lib数据库备份，若版本不同可以运行脚本(libRecovery.sql)还原***
 
