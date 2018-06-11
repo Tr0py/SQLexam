@@ -25,25 +25,22 @@ from book
 where bookname like '%经济学%'
 ```
 3.给出图书类别编号为“c2”且图书编号最小的那本书。（bookid，bookname，author）
-```
+```sql
 select *
 from book
 where catid='c2'
 and bookid<=all(select bookid from book where catid='c2')
 ```
 4.请列出”经济”类被借阅的图书的信息(bookid, bookname，borrowdate)
-```
-select book.bookid,book.bookname,borrowdate
-from
-(select * 
-from major) as A
-left join student on A.majorid=student.majorid
-left join borrow on student.stuid=borrow.stuid
-left join book on borrow.bookid=book.bookid
-where A.majorname='政治学'
+```sql
+select book.bookid,bookname,borrowdate
+from borrow
+inner join book on borrow.bookid=book.bookid
+join category on book.catid=category.catid
+where catname='经济'
 ```
 5.给出所有研究生借阅图书的数目(category，num)
-```
+```sql
 select catname 'category', count(*) 'num'
 from student
 inner join borrow on student.stuid=borrow.stuid
@@ -53,7 +50,7 @@ where degree='研究生'
 group by catname
 ```
 6.给出学号为“200810111”的同学最近一次借阅（借阅日期最大）的图书信息（bookid，bookname）
-```
+```sql
 select top(1) book.bookid,book.bookname
 from student
 left join borrow on student.stuid=borrow.stuid
@@ -62,7 +59,7 @@ where student.stuid='200810111'
 order by borrowdate desc
 ```
 7.给出在[2010-10-1,2010-10-20]这段期间被借阅次数超过两次的图书信息，结果按图书编号从小到大排序（bookid,bookname,author）
-```
+```sql
 select book.bookid,bookname,author
 from borrow 
 left join book on borrow.bookid=book.bookid
@@ -72,16 +69,16 @@ having count(*)>2
 order by book.bookid asc
 ```
 8.给出借阅了所有图书类别的学生（stuid,stuname)
-```
-
-select student.stuid,student.stuname
+```sql
+select student.stuid,stuname
 from student
 left join borrow on student.stuid=borrow.stuid
-group by student.stuid,student.stuname
-having count(*)=(select count(DISTINCT catid) from book)
+left join book on borrow.bookid=book.bookid
+group by student.stuid,stuname
+having count(distinct catid)=(select count(distinct catid) from book)
 ```
 9.李飞同学弄丢了他在2010年10月9号（含当天）以后借的所有书，若已知计算机技术类图书原价3倍赔偿，其它类图书按原价2倍赔偿，给出他需要赔偿的钱数（赔偿数额）
-```
+```sql
 select sum(sumprice)
 from
 (select student.stuid,case when catname='计算机技术' then price*3 else price*2 end as 'sumprice'
@@ -93,7 +90,7 @@ where student.stuname='李飞' and borrowdate>='2010-10-9') A
 group by stuid
 ```
 10.给出借阅“c1”类别图书次数最多的学生。（stuid，stuname，borrowcount）
-```
+```sql
 select student.stuid ,count(borrowdate) as 'borrowcount'
 from student
 left join borrow on student.stuid=borrow.stuid
