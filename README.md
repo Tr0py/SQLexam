@@ -16,12 +16,13 @@
   * left join等连接用法
   * 聚合
   * 排序 (desc asc)
+* 期末学习资料 <a href="https://github.com/shesl-meow/Note/blob/master/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F/note4.md"> ssl的期末重点笔记2333</a>
 
 ## 数据库结构
 
 * 表结构为
 
-<img src="http://ww1.sinaimg.cn/large/bff4f9baly1fs4ue7wy4zj20mr0l9wfs.jpg"/>
+![](http://ww1.sinaimg.cn/mw690/bff4f9baly1fs7cg4a50zj20if0h2q49.jpg)
 
 * 数据
 
